@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logger Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .log-entry {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 5px solid;
+        }
+        .log-entry.warning {
+            background-color: #fff8e1;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        .log-entry.error {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .log-entry.info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+        .log-entry.debug {
+            background-color: #e2e3e5;
+            border-color: #6c757d;
+            color: #383d41;
+        }
+    </style>
+</head>
+<body>
+    <h1>Logger Viewer</h1>
+    <div id="log-container"></div>
+
+    <script>
+        async function fetchLogs() {
+            const url = 'src/loger.php';
+            const response = await fetch(url);
+            const logs = await response.json();
+            const logContainer = document.getElementById('log-container');
+            logContainer.innerHTML = '';
+
+            logs.forEach(log => {
+                const div = document.createElement('div');
+                div.className = 'log-entry';
+
+                if (log.includes('WARNING')) {
+                    div.classList.add('warning');
+                } else if (log.includes('ERROR')) {
+                    div.classList.add('error');
+                } else if (log.includes('INFO')) {
+                    div.classList.add('info');
+                } else if (log.includes('DEBUG')) {
+                    div.classList.add('debug');
+                }
+
+                div.textContent = log;
+                logContainer.appendChild(div);
+            });
+        }
+
+        setInterval(fetchLogs, 5000);
+        fetchLogs();
+    </script>
+</body>
+</html>
