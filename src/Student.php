@@ -1,11 +1,17 @@
 <?php
-require_once "User.php";
-require_once "Database.php";
-require_once "../temp/query.php";
+require_once __DIR__."/loger.php";
+require_once __DIR__."/Database.php";
+require_once __DIR__."/User.php";
 
 class Student extends User
 {
     private $coursInscrits = [];
+
+    public function __construct($id = null, $username = null, $email = null, $password = null, $role = null, $status = null, $coursInscrits = [])
+    {
+        parent::__construct($id, $username, $email, $password, $role, $status);
+        $this->coursInscrits = $coursInscrits;
+    } 
 
     public function subscribtion($courseId)
     {

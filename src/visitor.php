@@ -1,9 +1,9 @@
 <?php
-require_once "Database.php";
-require_once "loger.php";
-require_once "../temp/query.php";
+require_once __DIR__."/loger.php";
+require_once __DIR__."/Database.php";
 
-class Visiter
+
+class visitor 
 {
 
 

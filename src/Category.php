@@ -1,6 +1,7 @@
 <?php
-require_once "Database.php"; 
-require_once "../temp/query.php";
+require_once __DIR__."/loger.php";
+require_once __DIR__."/Database.php";
+
 
 class Category
 {
@@ -53,6 +54,35 @@ class Category
         } catch (PDOException $e) {
             global $log;
             $log->error("Error deleting category: " . $e->getMessage());
+        }
+    }
+    public function updateCategory()
+    {
+        try {
+            $db = Database::getConnection();
+            $query = "UPDATE Categories SET name = :name WHERE id = :id";
+            $stmt = $db->prepare($query);
+            $stmt->execute([
+                'name' => $this->name,
+                'id' => $this->id,
+            ]);
+
+            return "Category successfully updated.";
+        } catch (PDOException $e) {
+            return "Error updating category: " . $e->getMessage();
+        }
+    }
+    public function getCategoryDetails($categoryId)
+    {
+        try {
+            $db = Database::getConnection();
+            $query = "SELECT * FROM Categories WHERE id = :id";
+            $stmt = $db->prepare($query);
+            $stmt->execute(['id' => $categoryId]);
+
+            return $stmt->fetch(PDO::FETCH_ASSOC) ?? "Category not found.";
+        } catch (PDOException $e) {
+            return "Error fetching category details: " . $e->getMessage();
         }
     }
 

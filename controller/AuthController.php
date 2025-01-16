@@ -1,6 +1,7 @@
 <?php
-require_once "../src/visiter.php";
-require_once "../src/User.php";
+require_once __DIR__."/../src/loger.php";
+require_once __DIR__."/../src/visitor.php";
+require_once __DIR__."/../src/User.php";
 
 session_start();
 
@@ -40,7 +41,7 @@ class AuthController{
                     $this->password = $password;
                     $this->role = $role;
                     
-                    $visiteur = new visiter(); 
+                    $visiteur = new visitor(); 
                     $message = $visiteur->register($this->username, $this->email, $this->password, $this->role);
 
                 }

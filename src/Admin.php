@@ -1,8 +1,7 @@
 <?php
-require_once "Database.php";
-require_once "User.php";
-require_once "loger.php";
-require_once "../temp/query.php";
+require_once __DIR__."/loger.php";
+require_once __DIR__."/User.php";
+require_once __DIR__."/Database.php";
 
 class Admin extends User
 {
@@ -60,11 +59,9 @@ class Admin extends User
             $stmt->execute();
             return $stmt->fetchAll();
         }catch (\PDOException $e) {
+            global $log;
             $log->error('An error occurred: ' . $e->getMessage());
             return "please try again latter";
         }
     }
 }
-
-// $n = new user;
-// $n->login("dfghjk","dfghjkl");

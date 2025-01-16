@@ -1,6 +1,7 @@
 <?php
-require_once "Database.php";
-require_once "../temp/query.php";
+require_once __DIR__."/loger.php";
+require_once __DIR__."/Database.php";
+require_once __DIR__."/Course.php";
 
 
 class CourseManager
@@ -25,10 +26,14 @@ class CourseManager
 
             $course->setId($db->lastInsertId());
             $this->assignTags($course);
-
+            global $log;
+            $log->info('new course with the id "'.$course->getid().'"added');
             return "Course successfully added.";
+
         } catch (PDOException $e) {
-            return "Error adding course: " . $e->getMessage();
+            global $log;
+            $log->error('Error adding course: ' . $e->getMessage());
+            return "Error adding course please try again";
         }
     }
 

@@ -1,5 +1,7 @@
 <?php
 require_once "../controller/AuthController.php";
+require_once "../controller/CoursController.php";
+
 
 $url = $_REQUEST['url'];
 $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -15,11 +17,11 @@ $routes = [
         'method' => 'login',
         'params' => ['email', 'password'], 
     ], 
-    // 'addproduct' => [
-    //     'controller' => ProductController::class,
-    //     'method' => 'addproduct',
-    //     'params' => ['name', 'description','price', 'quantity','category','image'],
-    // ],
+    'addCourse' => [
+        'controller' => CoursController::class,
+        'method' => 'addCourse',
+        'params' => ['title', 'description', 'content', 'teacher_id', 'category_id', 'tag'],
+    ],
     // 'Delet' => [
     //     'controller' => ProductController::class,
     //     'method' => 'deleteProduct',

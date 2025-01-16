@@ -1,5 +1,5 @@
 <?php
-require_once "../temp/query.php";
+require_once __DIR__."/../temp/query.php";
 
 class Database
 {

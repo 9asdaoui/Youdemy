@@ -1,6 +1,6 @@
 <?php
-require_once "Database.php";
-require_once "../temp/query.php";
+require_once __DIR__."/loger.php";
+
 
 class Course
 {
