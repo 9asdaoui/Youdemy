@@ -22,15 +22,9 @@ $log->pushHandler(new StreamHandler($logFile, level::Debug));
 //     echo json_encode(["Log file not found."]);
 // }
 
-
-
-
-// Successful Login:
-// $log->info('<p>User with email ' . $myuser["email"] . ' successfully logged in.</p>');
-// Failed Login (Wrong credentials):
-// $log->warning('User with email ' . $myuser["email"] . ' attempted to log in with incorrect credentials (email or password).');
-// Account Locked:
-// $log->error('User with email ' . $myuser["email"] . ' tried to log in but their account is locked.');
+// $log->info('<p>User with emailsuccessfully logged in.</p>');
+// $log->warning('User with email  attempted to log in with incorrect credentials (email or password).');
+// $log->error('User with email tried to log in but their account is locked.');
 // Successful Logout:
 // $log->info('User with email ' . $myuser["email"] . ' logged out successfully.');
 // Successful User Registration:

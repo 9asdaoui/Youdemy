@@ -127,11 +127,10 @@ class CoursController
         $message = $addCourse->deleteCourse($course);
 
         if($message=="Course successfully deleted."){
-            $_SESSION["error_message"] = $message;
-            header("location:../layout/admin/courses.php");
+            
+            $_SESSION["message"] = $message;
         }else{
-            $_SESSION["error_message"] = $message;
-            header("location:../layout/admin/courses.php");
+            $_SESSION["message"] = $message;
         }
     }
 

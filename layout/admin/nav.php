@@ -7,7 +7,10 @@ exit();
 $user_id = $_SESSION["userid"];
 require_once __DIR__ . '/../../controller/renderHtml.php';
 require_once __DIR__ . '/../../controller/CoursController.php';
+require_once __DIR__ . '/../../controller/UserController.php';
 require_once __DIR__."/../../src/CourseManager.php";
+require_once __DIR__."/../../src/loger.php";
+
 
 
 ?>
@@ -175,6 +178,6 @@ require_once __DIR__."/../../src/CourseManager.php";
             <a href="manage_teachers.php"><i class="fas fa-chalkboard-teacher"></i> Teachers</a>
             <a href="manage_users.php"><i class="fas fa-user-graduate"></i> Students</a>
             <a href="courses.php"><i class="fas fa-book"></i> Courses</a>
+            <a href="category_tages.php"><i class="fas fa-tags"></i> Category & Tags</a>
             <a href="#settings"><i class="fas fa-cogs"></i> Settings</a>
         </div>
-  

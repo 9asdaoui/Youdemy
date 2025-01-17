@@ -87,10 +87,14 @@ class CourseManager
             ]);
 
             $this->updateTags($course);
+            global $log;
+            $log->info('course with the id "'.$course->getid().'"updated');
 
             return "Course successfully updated.";
         } catch (PDOException $e) {
-            return "Error updating course: " . $e->getMessage();
+            global $log;
+            $log->error("Error updating course: " . $e->getMessage());
+            return "Error updating course";
         }
     }
 
@@ -121,10 +125,13 @@ class CourseManager
             $query = "DELETE FROM Courses WHERE id = :id";
             $stmt = $db->prepare($query);
             $stmt->execute(['id' => $course->getId()]);
-
+            global $log;
+            $log->info('course with the id "'.$course->getid().'"deleted');
             return "Course successfully deleted.";
         } catch (PDOException $e) {
-            return "Error deleting course: " . $e->getMessage();
+            global $log;
+            $log->error("Error deleting course: " . $e->getMessage());
+            return "Error deleting course: ";
         }
     }
 

@@ -75,4 +75,16 @@ class Student extends User
         }
     }
 
+    public static function toObject($data)
+    {
+        return new Student(
+            $data['id'],
+            $data['username'],
+            $data['email'],
+            null,
+            $data['role'],
+            $data['status']
+        ); 
+    }
+
 }

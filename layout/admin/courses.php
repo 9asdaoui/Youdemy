@@ -1,13 +1,19 @@
-<?php include "nav.php";?>
+<?php
+    include "nav.php";
+    if(isset($_GET['deletcourseid'])){
+        $delet = new CoursController;
+        $delet->delet_Course($_GET['deletcourseid']);
+        $message = $_SESSION["message"];
+    }
+?>
 <style>
     .course-cards-container {
         right: 0px;
         background-color: cadetblue;
-        top: 68px;
+        top: 67px;
         position: absolute;
-        width: 1323px;
-        display: grid
-    ;
+        width: 1491px;
+        display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 20px;
         padding-top: 91px;
@@ -83,11 +89,30 @@
     .add-course-btn:focus {
         outline: none;
     }
+    .message {
+        z-index: 1;
+        position: absolute;
+        border: solid;
+        border-radius: 14px;
+        left: 247px;
+        padding: 7px;
+        background-color: aquamarine;
+        color: green;
+        font-size: 21px;
+        top: 100px;
+    }
 
 </style>
-
 <a href="manage_courses.php">
     <button class="add-course-btn">ADD New Course</button>
 </a>
+
+<?php
+    if (isset($_SESSION["message"])) {  
+        echo "<p class='message'>". $_SESSION["message"]."</p>";
+        unset($_SESSION["message"]);
+    } 
+?>
+
 
 <?php CoursController::render_Courses();?>

@@ -154,19 +154,18 @@
                     persist: false,         
                     createOnBlur: true,    
                     create: true,          
-                    maxItems: null,         
+                    maxItems: 8,         
                     plugins: ['remove_button'], 
 
                     options: [
                         <?php
+                            
                             if(isset($tags)){
                                 foreach($tags as $tag){
                                     echo "{value: '{$tag}', text: '{$tag}'},";
                                 }; 
                             }
-                            
                         ?>
-                        
                     ],
                    
                     items: [

@@ -31,4 +31,16 @@ class Teacher extends User
             throw new Exception("Error fetching teacher: " . $e->getMessage());
         }
     }
+
+    public static function toObject($data)
+    {
+        return new Teacher(
+            $data['id'] ?? null,
+            $data['username'] ?? null,
+            $data['email'] ?? null,
+            null,
+            $data['role'] ?? null,
+            $data['status'] ?? null
+        );
+    }
 }
