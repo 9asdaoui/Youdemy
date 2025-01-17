@@ -59,7 +59,7 @@ class  User
         }catch (\PDOException $e) {
             global $log;
             $log->error('An error occurred: ' . $e->getMessage());
-            return "please try again latter";
+            return "please try again later";
 
         }
     }

@@ -22,6 +22,20 @@ class CoursController
             header("location:../layout/admin/manage_courses.php");
         }
     }
+    public function editCourse($course_id, $title, $description, $content, $teacher_id, $category_id, $tags)
+    {
+        $tagsArray = explode(',', $tags);
+        $course = new Course($course_id, $title, $description, $content, $teacher_id, $category_id, $tagsArray);
+        $addCourse = new CourseManager;
+
+        $message = $addCourse->updateCourse($course);
+        if($message=="Course successfully updated."){
+            header("location:../layout/admin/courses.php");
+        }else{
+            $_SESSION["error_message"] = $message;
+            header("location:../layout/admin/manage_courses.php");
+        }
+    }
     public static function render_Courses()
     {
         $courses = CourseManager::getAllCourses();
@@ -105,6 +119,20 @@ class CoursController
         $html .= '</div>';
     
         echo $html;
+    }
+    public function delet_Course($id)
+    {
+        $course = new Course($id);
+        $addCourse = new CourseManager;
+        $message = $addCourse->deleteCourse($course);
+
+        if($message=="Course successfully deleted."){
+            $_SESSION["error_message"] = $message;
+            header("location:../layout/admin/courses.php");
+        }else{
+            $_SESSION["error_message"] = $message;
+            header("location:../layout/admin/courses.php");
+        }
     }
 
 }

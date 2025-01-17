@@ -1,21 +1,22 @@
 <?php include "nav.php";
-if(isset($_GET["modifcourseid"])){
-    $coursId = $_GET["modifcourseid"];
+    if(isset($_GET["modifcourseid"])){
+        $coursId = $_GET["modifcourseid"];
 
-    $cours =  new courseManager;
-    $courseData = $cours->getCourseDetails($coursId);
+        $cours =  new courseManager;
+        $courseData = $cours->getCourseDetails($coursId);
 
-    $title = $courseData->getTitle();
-    $description = $courseData->getDescription();
-    $content = $courseData->getContent();
-    $teacher_id = $courseData->getTeacherid(); 
+        $title = $courseData->getTitle();
+        $description = $courseData->getDescription();
+        $content = $courseData->getContent();
+        $teacher_id = $courseData->getTeacherid(); 
 
-    $cat = new Category();
-    $catname = $cat->getCategoryDetails($courseData->getCategoryid());
+        $cat = new Category();
+        $catname = $cat->getCategoryDetails($courseData->getCategoryid());
 
-    $category_id = '<option value="'.$courseData->getCategoryid().'">'.$catname["name"].'</option>';
-    $tags = $courseData->getTags();
-    }?>
+        $category_id = '<option value="'.$courseData->getCategoryid().'">'.$catname["name"].'</option>';
+        $tags = $courseData->getTags();
+        }
+?>
     <style>
         .container {
             max-width: 1143px;
@@ -80,6 +81,7 @@ if(isset($_GET["modifcourseid"])){
             font-size: 14px;
         }
     </style>
+
     <a href="courses.php">
     <button style="
     position: absolute;
@@ -156,15 +158,22 @@ if(isset($_GET["modifcourseid"])){
                     plugins: ['remove_button'], 
 
                     options: [
-
-                        {value: 'awesome', text: 'Awesome'},
-                        {value: 'neat', text: 'Neat'},
-                        {value: 'cool', text: 'Cool'},
-                        {value: 'innovative', text: 'Innovative'},
-                        {value: 'fun', text: 'Fun'}
+                        <?php
+                            if(isset($tags)){
+                                foreach($tags as $tag){
+                                    echo "{value: '{$tag}', text: '{$tag}'},";
+                                }; 
+                            }
+                            
+                        ?>
+                        
                     ],
                    
-                    items: <?= json_encode($tags ?? []); ?>,
+                    items: [
+                     <?php    if(isset($tags)){
+                             foreach($tags as $tag){ echo "'$tag',"; }
+                        }?>
+                    ],
                     dropdown: {
                         position: 'below',
                         maxItems: 10         

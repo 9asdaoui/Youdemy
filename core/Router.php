@@ -27,11 +27,11 @@ $routes = [
     //     'method' => 'deleteProduct',
     //     'params' => ['id'],
     // ],
-    // 'Edit' => [
-    //     'controller' => ProductController::class,
-    //     'method' => 'updateProduct',
-    //     'params' => ['Edite-id','name', 'description','price', 'quantity','category','image'],
-    // ]
+    'editCourse' => [
+        'controller' => CoursController::class,
+        'method' => 'editCourse',
+        'params' => ['course_id','title', 'description', 'content', 'teacher_id', 'category_id', 'tag'],
+    ]
 ];
 
 if (isset($routes[$url])) {
