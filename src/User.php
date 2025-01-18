@@ -2,7 +2,7 @@
 require_once __DIR__."/loger.php";
 require_once __DIR__."/Database.php";
 
-class  User
+abstract class User
 {
     protected $id;
     protected $username;
