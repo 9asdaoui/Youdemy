@@ -4,7 +4,6 @@ require_once "../controller/CoursController.php";
 require_once "../controller/TagController.php";
 require_once "../controller/CategoryController.php";
 
-
 $url = $_REQUEST['url'];
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 

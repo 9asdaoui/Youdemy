@@ -366,6 +366,58 @@ class CourseManager
             return "Error adding subscription";
         }
     }
+    public static function getAllCourses_teacher($user_Id)
+    {
+        try {
+            $db = Database::getConnection();
+
+            $query = "
+                SELECT c.*, t.name AS tag_name, cat.name AS category_name
+                FROM Courses c
+                LEFT JOIN CourseTags ct ON c.id = ct.course_id
+                LEFT JOIN Tags t ON ct.tag_id = t.id
+                LEFT JOIN Categories cat ON c.category_id = cat.id
+                where teacher_id = $user_Id;";
+            $stmt = $db->query($query);
+
+            $coursesData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $courses = [];
+
+            $groupedCourses = [];
+            foreach ($coursesData as $row) {
+                $courseId = $row['id'];
+                if (!isset($groupedCourses[$courseId])) {
+                    $groupedCourses[$courseId] = [
+                        'id' => $row['id'],
+                        'title' => $row['title'],
+                        'description' => $row['description'],
+                        'content' => $row['content'],
+                        'teacher_id' => $row['teacher_id'],
+                        'category_id' => $row['category_id'],
+                        'tags' => []
+                    ];
+                }
+                $groupedCourses[$courseId]['tags'][] = $row['tag_name'];
+            }
+
+            foreach ($groupedCourses as $courseData) {
+                $courses[] = new Course(
+                    $courseData['id'],
+                    $courseData['title'],
+                    $courseData['description'],
+                    $courseData['content'],
+                    $courseData['teacher_id'],
+                    $courseData['category_id'],
+                    $courseData['tags']
+                );
+            }
+
+            return $courses;
+        } catch (PDOException $e) {
+            return "Error fetching courses: " . $e->getMessage();
+        }
+    }
     
 
 }

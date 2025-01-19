@@ -16,10 +16,21 @@ class CoursController
         $addCourse = new CourseManager;
         $message = $addCourse->addCourse($course);
         if($message=="Course successfully added."){
+            $_SESSION["error_message"] = $message;
+            if($_SESSION["role"]=="Teacher"){
+                header("location:../layout/teacher/courses.php");
+
+            }else if($_SESSION["role"]=="Admin"){
             header("location:../layout/admin/courses.php");
+            }
         }else{
             $_SESSION["error_message"] = $message;
-            header("location:../layout/admin/manage_courses.php");
+            if($_SESSION["role"]=="Teacher"){
+                header("location:../layout/teacher/manage_courses.php");
+
+            }else if($_SESSION["role"]=="Admin"){
+                header("location:../layout/admin/manage_courses.php");
+            }
         }
     }
     public function editCourse($course_id, $title, $description, $content, $teacher_id, $category_id, $tags)
@@ -245,6 +256,35 @@ class CoursController
     {
         CourseManager::addSubscription($course_id,$userId);
         header("location:../layout/student/my_courses.php");
+    }
+    public static function render_Courses_teacher($user_Id)
+    {
+        $courses = CourseManager::getAllCourses_teacher($user_Id);
+
+        $html = '<div class="course-cards-container">';
+    
+        foreach ($courses as $course) {
+
+            $cat = new Category();
+            $catname = $cat->getCategoryDetails($course->getCategoryid());
+
+
+            $tags = implode(' ', $course->getTags()); 
+
+            $html .= "
+                <div class='course-card'>
+                    <h3>{$course->getTitle()}</h3>
+                    <p><strong>Category:</strong> {$catname['name']}</p>
+                    <p><strong>Description:</strong> {$course->getDescription()}</p>
+                    <p><strong>Tags:</strong>{$tags}</p>
+                    <a href='courseDet.php?detelId={$course->getId()}'><button class='btn btn-primary'>View Course</button></a>
+                </div>
+            ";
+        }
+    
+        $html .= '</div>';
+    
+        echo $html;
     }
 
 }

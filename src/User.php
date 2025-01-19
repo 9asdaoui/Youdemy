@@ -64,7 +64,7 @@ class User
                     header("location:../layout/general/home.php");
 
                 }else if($myuser["role"] == "Teacher"){
-                    header("location:../layout/Teacher");
+                    header("location:../layout/Teacher/teacher_dashboard.php");
                 }
             } else {
                 $log->warning('User with email ' . $email . ' attempted to log in with incorrect credentials.');
