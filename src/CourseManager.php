@@ -37,7 +37,7 @@ class CourseManager
         }
     }
 
-    private function assignTags(Course $course)
+    public function assignTags(Course $course)
     {
         try {
             $db = Database::getConnection();
@@ -62,7 +62,9 @@ class CourseManager
                 }
             }
         } catch (PDOException $e) {
-            throw new Exception("Error assigning tags to course: " . $e->getMessage());
+            global $log;
+            $log->error('Error assigning tags to course: ' . $e->getMessage());
+            return "Error assigning tags to course";
         }
     }
 

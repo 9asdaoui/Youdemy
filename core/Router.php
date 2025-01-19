@@ -1,6 +1,8 @@
 <?php
 require_once "../controller/AuthController.php";
 require_once "../controller/CoursController.php";
+require_once "../controller/TagController.php";
+require_once "../controller/CategoryController.php";
 
 
 $url = $_REQUEST['url'];
@@ -22,15 +24,20 @@ $routes = [
         'method' => 'addCourse',
         'params' => ['title', 'description', 'content', 'teacher_id', 'category_id', 'tag'],
     ],
-    // 'Delet' => [
-    //     'controller' => ProductController::class,
-    //     'method' => 'deleteProduct',
-    //     'params' => ['id'],
-    // ],
     'editCourse' => [
         'controller' => CoursController::class,
         'method' => 'editCourse',
         'params' => ['course_id','title', 'description', 'content', 'teacher_id', 'category_id', 'tag'],
+    ], 
+    'addCategory' => [
+        'controller' => CategoryController::class,
+        'method' => 'addCategory',
+        'params' => ['categoryName'],
+    ],
+    'addTag' => [
+        'controller' => tagController::class,
+        'method' => 'addtag',
+        'params' => ['tagName'],
     ]
 ];
 

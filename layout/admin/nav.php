@@ -10,6 +10,9 @@ require_once __DIR__ . '/../../controller/CoursController.php';
 require_once __DIR__ . '/../../controller/UserController.php';
 require_once __DIR__."/../../src/CourseManager.php";
 require_once __DIR__."/../../src/loger.php";
+require_once __DIR__ . '/../../controller/tagController.php';
+require_once __DIR__ . '/../../controller/CategoryController.php';
+
 
 
 

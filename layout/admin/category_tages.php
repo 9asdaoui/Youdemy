@@ -165,10 +165,28 @@
         cursor: pointer;
     }
 </style>
+<?php 
 
+if (isset($_SESSION["message"])) {  
+    echo "<p style='position: absolute;top: 69px;color: aqua;left: 14%;'>". $_SESSION["message"]."</p>";
+    unset($_SESSION["message"]);
+}  
+if(isset($_GET["updateCatid"])){}
+if(isset($_GET["deletCatid"])){
+    $cat = new CategoryController;
+    $cat->deletCat($_GET["deletCatid"]);
+}
+if(isset($_GET["updateTagid"])){}
+if(isset($_GET["deletTagid"])){
+    $tag = new tagController;
+    $tag->delettag($_GET["delettagid"]);
+}
+
+
+?>
 <div class="container">
 
-    <div class="content">
+    <div class="content" style="color: green; ">
         <div class="header-section">
             <h2>Tags</h2>
             <button class="add-button" onclick="toggleForm('tagForm')">
@@ -194,7 +212,7 @@
     <div id="tagForm" class="form-popup">
         <h3>Add New Tag</h3>
         <form action="../../core/Router.php" method="POST">
-        <input type="hidden" name="url" value="addCategory">
+            <input type="hidden" name="url" value="addTag">
 
             <div class="form-group">
                 <label for="tagName">Tag Name</label>

@@ -54,6 +54,7 @@ class Category
         } catch (PDOException $e) {
             global $log;
             $log->error("Error deleting category: " . $e->getMessage());
+            return "Error deleting category";
         }
     }
     public function updateCategory()
