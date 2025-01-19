@@ -57,7 +57,7 @@ class AuthController{
     public function login($email,$password){
 
                 $this->email = $email;
-                $this->password = $password;
+                $this->password = $password; 
             
                 $user = new User();
             

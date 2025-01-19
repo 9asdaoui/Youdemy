@@ -86,5 +86,6 @@ class Student extends User
             $data['status']
         ); 
     }
+    
 
 }

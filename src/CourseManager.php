@@ -225,5 +225,147 @@ class CourseManager
             return "Error fetching courses: " . $e->getMessage();
         }
     }
+    public static function getAllCoursesPagination($limit = 6, $offset = 0)
+    {
+        try {
+            $db = Database::getConnection();
+
+            $query = "
+                SELECT c.*, t.name AS tag_name, cat.name AS category_name
+                FROM Courses c
+                LEFT JOIN CourseTags ct ON c.id = ct.course_id
+                LEFT JOIN Tags t ON ct.tag_id = t.id
+                LEFT JOIN Categories cat ON c.category_id = cat.id
+                LIMIT :limit OFFSET :offset
+
+            ";
+            $stmt = $db->prepare($query);
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $coursesData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $courses = [];
+
+            $groupedCourses = [];
+            foreach ($coursesData as $row) {
+                $courseId = $row['id'];
+                if (!isset($groupedCourses[$courseId])) {
+                    $groupedCourses[$courseId] = [
+                        'id' => $row['id'],
+                        'title' => $row['title'],
+                        'description' => $row['description'],
+                        'content' => $row['content'],
+                        'teacher_id' => $row['teacher_id'],
+                        'category_id' => $row['category_id'],
+                        'tags' => []
+                    ];
+                }
+                $groupedCourses[$courseId]['tags'][] = $row['tag_name'];
+            }
+
+            foreach ($groupedCourses as $courseData) {
+                $courses[] = new Course(
+                    $courseData['id'],
+                    $courseData['title'],
+                    $courseData['description'],
+                    $courseData['content'],
+                    $courseData['teacher_id'],
+                    $courseData['category_id'],
+                    $courseData['tags']
+                );
+            }
+
+            return $courses;
+        } catch (PDOException $e) {
+            return "Error fetching courses: " . $e->getMessage();
+        }
+    }
+    public static function getAllMyCourses($userId)
+    {
+        try {
+            $db = Database::getConnection();
+    
+            $query = "
+                    SELECT c.*, t.name AS tag_name, cat.name AS category_name
+                    FROM subscribtion s
+                    LEFT JOIN Courses c ON s.course_id = c.id
+                    LEFT JOIN CourseTags ct ON c.id = ct.course_id
+                    LEFT JOIN Tags t ON ct.tag_id = t.id
+                    LEFT JOIN Categories cat ON c.category_id = cat.id
+                    WHERE s.student_id = :userId;
+            ";
+            
+            $stmt = $db->prepare($query);
+            
+            $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+            
+            $stmt->execute();
+    
+            $coursesData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            $courses = [];
+            $groupedCourses = [];
+            
+            foreach ($coursesData as $row) {
+                $courseId = $row['id'];
+                if (!isset($groupedCourses[$courseId])) {
+                    $groupedCourses[$courseId] = [
+                        'id' => $row['id'],
+                        'title' => $row['title'],
+                        'description' => $row['description'],
+                        'content' => $row['content'],
+                        'teacher_id' => $row['teacher_id'],
+                        'category_id' => $row['category_id'],
+                        'tags' => []
+                    ];
+                }
+                $groupedCourses[$courseId]['tags'][] = $row['tag_name'];
+            }
+    
+            foreach ($groupedCourses as $courseData) {
+                $courses[] = new Course(
+                    $courseData['id'],
+                    $courseData['title'],
+                    $courseData['description'],
+                    $courseData['content'],
+                    $courseData['teacher_id'],
+                    $courseData['category_id'],
+                    $courseData['tags']
+                );
+            }
+    
+            return $courses;
+        } catch (PDOException $e) {
+            return "Error fetching courses: " . $e->getMessage();
+        }
+    }
+    public static function addSubscription($courseId, $studentId)
+    {
+        try {
+            $db = Database::getConnection();
+
+            $query = "
+                    INSERT INTO subscribtion (student_id, course_id)
+                    VALUES (:studentId, :courseId);
+            ";
+
+            $stmt = $db->prepare($query);
+
+            $stmt->bindParam(':studentId', $studentId, PDO::PARAM_INT);
+            $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+
+            $stmt->execute();
+            global $log;
+            $log->info("New Subscription added");
+            return "Subscription added successfully!";
+        } catch (PDOException $e) {
+            global $log;
+            $log->error("Error adding subscription: " . $e->getMessage());
+            return "Error adding subscription";
+        }
+    }
+    
 
 }

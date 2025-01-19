@@ -2,7 +2,7 @@
 require_once __DIR__."/loger.php";
 require_once __DIR__."/Database.php";
 
-abstract class User
+class User
 {
     protected $id;
     protected $username;
@@ -61,7 +61,7 @@ abstract class User
                     header("location:../layout/admin/admin_dashboard.php");
 
                 } else if($myuser["role"] == "Student"){
-                    header("location:../layout/Student");
+                    header("location:../layout/general/home.php");
 
                 }else if($myuser["role"] == "Teacher"){
                     header("location:../layout/Teacher");

@@ -451,3 +451,87 @@
   .error-mess{
     color: #e74c3c;
   }
+  .course-detail-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--dark-secondary);
+    border-radius: 8px;
+}
+
+.course-header {
+    margin-bottom: 2rem;
+}
+
+.course-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.course-description {
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    color: var(--text-light);
+}
+
+.course-meta {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background-color: var(--dark-bg);
+    border-radius: 8px;
+}
+
+.course-meta p {
+    margin-bottom: 1rem;
+}
+
+.course-content {
+    margin-top: 2rem;
+}
+
+.content_div {
+    padding: 1rem;
+    background-color: var(--dark-bg);
+    border-radius: 8px;
+    color: var(--text-light);
+}
+
+.course-teacher {
+    margin-top: 2rem;
+}
+
+.course-teacher h3 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.course-teacher p {
+    margin-bottom: 1rem;
+}
+
+.course-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.course-actions .btn {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.course-actions .btn:hover {
+    background-color: #e67e22;
+}
+
+.error {
+    color: red;
+    text-align: center;
+    font-size: 1.5rem;
+}
