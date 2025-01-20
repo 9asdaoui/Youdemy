@@ -2,6 +2,9 @@
 if (!isset($_SESSION["userid"])||$_SESSION["role"]!=="Teacher") {
 header("location:../general/login.php");
 exit();
+}else if($_SESSION["status"]=="verification"){
+    header("location:../general/Ver.php");
+exit();
 }
 $user_id = $_SESSION["userid"];
 require_once __DIR__ . '/../../controller/renderHtml.php';

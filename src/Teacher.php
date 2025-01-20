@@ -43,4 +43,25 @@ class Teacher extends User
             $data['status'] ?? null
         );
     }
+    public static function getTotalSubscriptionsForTeacher($teacherId)
+    {
+        try {
+            $db = Database::getConnection();
+
+            $query = "
+                SELECT COUNT(s.id) AS total_subscriptions
+                FROM subscribtion s
+                INNER JOIN Courses c ON s.course_id = c.id
+                WHERE c.teacher_id = :teacherId
+            ";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(':teacherId', $teacherId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['total_subscriptions'];
+        } catch (PDOException $e) {
+            return "Error fetching subscriptions: " . $e->getMessage();
+        }
+    }
 }
