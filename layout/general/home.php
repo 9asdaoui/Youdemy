@@ -19,7 +19,13 @@
 
         
         <div class="course-grid">
-  <?php      CoursController::render_Courses_page(); ?>
+<?php      
+
+  isset($_GET["page"]) ? $number = $_GET["page"]*3 : $number = 0;
+
+  CoursController::render_Courses_page(3,$number);
+  
+?>
 
         </div>
 
@@ -28,11 +34,14 @@
 
     <nav class="pagination-container">
         <ul class="pagination-list">
-            <li><a href="?-" class="pagination-link">Previous</a></li>
-            <li><a href="?1" class="pagination-link active">1</a></li>
-            <li><a href="?2" class="pagination-link">2</a></li>
-            <li><a href="?3" class="pagination-link">3</a></li>
-            <li><a href="?+" class="pagination-link">Next</a></li>
+            <?php
+                        $coursesCountes = count(CourseManager::getAllCourses());
+                        $numeOffpages = ceil($coursesCountes/3);
+                        for($i = 0; $i<$numeOffpages; $i++){
+                            echo '<li><a href="?page='.$i.'" class="pagination-link">'.$i.'</a></li>';
+
+                        }
+            ?>
         </ul>
     </nav>
 <?php  require_once "../general/foot.php";?>

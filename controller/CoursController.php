@@ -154,7 +154,7 @@ class CoursController
             $cat = new Category();
             $catname = $cat->getCategoryDetails($course->getCategoryid());
     
-            $tags = implode(', ', $course->getTags());
+            $tags =$course->getTags();
     
             $html .= "
                 <article class='course-card'>

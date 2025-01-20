@@ -225,47 +225,32 @@ class CourseManager
             return "Error fetching courses: " . $e->getMessage();
         }
     }
-    public static function getAllCoursesPagination($limit = 6, $offset = 0)
+    public static function getAllCoursesPagination($limit = 3, $offset = 0)
     {
         try {
             $db = Database::getConnection();
 
+
             $query = "
-                SELECT c.*, t.name AS tag_name, cat.name AS category_name
+                SELECT c.*, group_concat(t.name) AS tag_name, cat.name AS category_name
                 FROM Courses c
                 LEFT JOIN CourseTags ct ON c.id = ct.course_id
                 LEFT JOIN Tags t ON ct.tag_id = t.id
                 LEFT JOIN Categories cat ON c.category_id = cat.id
-                LIMIT :limit OFFSET :offset
+                group by c.id
+                LIMIT $limit OFFSET $offset
 
             ";
             $stmt = $db->prepare($query);
-            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
             $stmt->execute();
 
             $coursesData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $courses = [];
 
-            $groupedCourses = [];
-            foreach ($coursesData as $row) {
-                $courseId = $row['id'];
-                if (!isset($groupedCourses[$courseId])) {
-                    $groupedCourses[$courseId] = [
-                        'id' => $row['id'],
-                        'title' => $row['title'],
-                        'description' => $row['description'],
-                        'content' => $row['content'],
-                        'teacher_id' => $row['teacher_id'],
-                        'category_id' => $row['category_id'],
-                        'tags' => []
-                    ];
-                }
-                $groupedCourses[$courseId]['tags'][] = $row['tag_name'];
-            }
+ 
 
-            foreach ($groupedCourses as $courseData) {
+            foreach ($coursesData as $courseData) {
                 $courses[] = new Course(
                     $courseData['id'],
                     $courseData['title'],
@@ -273,7 +258,8 @@ class CourseManager
                     $courseData['content'],
                     $courseData['teacher_id'],
                     $courseData['category_id'],
-                    $courseData['tags']
+                    $courseData['tag_name']
+                    
                 );
             }
 
