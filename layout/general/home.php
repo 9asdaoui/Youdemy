@@ -8,8 +8,11 @@
 
     <section class="search-section">
         <div class="search-wrapper">
-            <input type="text" class="search-input" placeholder="What do you want to learn today?">
-            <button class="search-button">Search Courses</button>
+            <form method="GET" >
+                <input type="text" class="search-input" name="search" placeholder="What do you want to learn today?">
+                <button class="search-button">Search Courses</button>       
+            </form>
+
         </div>
     </section>
 
@@ -21,9 +24,16 @@
         <div class="course-grid">
 <?php      
 
-  isset($_GET["page"]) ? $number = $_GET["page"]*3 : $number = 0;
+if(isset($_GET["search"])){
 
-  CoursController::render_Courses_page(3,$number);
+    isset($_GET["page"]) ? $number = $_GET["page"]*3 : $number = 0;
+    CoursController::Search(3,$number,$_GET["search"]);
+
+}else{
+    isset($_GET["page"]) ? $number = $_GET["page"]*3 : $number = 0;
+    CoursController::render_Courses_page(3,$number);
+}
+
   
 ?>
 

@@ -144,11 +144,11 @@ class CoursController
             $_SESSION["message"] = $message;
         }
     }
-    public static function render_Courses_page()
+    public static function render_Courses_page($limit, $offset)
     {
-        $courses = CourseManager::getAllCoursesPagination();
+        $courses = CourseManager::getAllCoursesPagination($limit, $offset);
     
-        $html = '<div class="course-cards-container">';
+        $html = '';
     
         foreach ($courses as $course) {
             $cat = new Category();
@@ -167,7 +167,6 @@ class CoursController
             ";
         }
     
-        $html .= '</div>';
     
         echo $html;
     }
@@ -184,7 +183,7 @@ class CoursController
         $tags = implode(', ', $course->getTags());
             $html .= "
             <div class='course-actions'>
-                <a href='my_courses.php?addtoMyCoursesID={$course->getId()}'><button class='btn btn-primary'>subscribe</button></a>
+                <a href='../student/my_courses.php?addtoMyCoursesID={$course->getId()}' class='course-button'>subscribe</a>
             </div>
         ";
         $html .= "
@@ -229,7 +228,7 @@ class CoursController
     {
         $courses = CourseManager::getAllMyCourses($userId);
     
-        $html = '<div class="course-cards-container">';
+        $html = '';
     
         foreach ($courses as $course) {
             $cat = new Category();
@@ -248,14 +247,12 @@ class CoursController
             ";
         }
     
-        $html .= '</div>';
     
         echo $html;
     }
     public static function addSub($course_id,$userId)
     {
         CourseManager::addSubscription($course_id,$userId);
-        header("location:../layout/student/my_courses.php");
     }
     public static function render_Courses_teacher($user_Id)
     {
@@ -286,5 +283,30 @@ class CoursController
     
         echo $html;
     }
+    public static function Search($limit, $offset ,$title)
+    {
+        $courses = CourseManager::Search($limit, $offset ,$title);
 
+        $html = '';
+    
+        foreach ($courses as $course) {
+            $cat = new Category();
+            $catname = $cat->getCategoryDetails($course->getCategoryid());
+    
+            $tags = implode(', ', $course->getTags());
+    
+            $html .= "
+                <article class='course-card'>
+                    <h3 class='course-title'>{$course->getTitle()}</h3>
+                    <p class='course-category'><strong>Category:</strong> {$catname['name']}</p>
+                    <p class='course-description'>{$course->getDescription()}</p>
+                    <p class='course-tags'><strong>Tags:</strong> {$tags}</p>
+                    <a href='../student/course_details.php?detelId={$course->getId()}' class='course-button'>Learn More</a>
+                </article>
+            ";
+        }
+    
+    
+        echo $html;
+    }
 }

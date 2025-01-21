@@ -10,11 +10,6 @@ exit();
 require_once "../../controller/CoursController.php";
 require_once "../general/nav.php"; 
 
-if(isset($_GET["addtoMyCoursesID"])){
-    $userID = $_SESSION["userid"];
-    $CoursID = $_GET["addtoMyCoursesID"];
-    CoursController::addSub($CoursID,$userID);
-}
 
 $courseId = isset($_GET['detelId']) ? $_GET['detelId'] : null;
 ?>

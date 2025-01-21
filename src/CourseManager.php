@@ -225,7 +225,7 @@ class CourseManager
             return "Error fetching courses: " . $e->getMessage();
         }
     }
-    public static function getAllCoursesPagination($limit = 3, $offset = 0)
+    public static function getAllCoursesPagination($limit, $offset)
     {
         try {
             $db = Database::getConnection();
@@ -404,6 +404,29 @@ class CourseManager
             return "Error fetching courses: " . $e->getMessage();
         }
     }
-    
+    public static function Search($limit, $offset ,$title)
+    {
+        try {
+            $db = Database::getConnection();
 
+            $query = "
+                SELECT c.*, GROUP_CONCAT(t.name) AS tags
+                FROM Courses c
+                LEFT JOIN CourseTags ct ON c.id = ct.course_id
+                LEFT JOIN Tags t ON ct.tag_id = t.id
+                WHERE c.title LIKE :title
+                GROUP BY c.id
+                LIMIT $limit OFFSET $offset
+
+            ";
+            $stmt = $db->prepare($query);
+            $title = '%' . $title . '%';
+            $stmt->bindParam(':title', $title, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return "Error searching courses: " . $e->getMessage();
+        }
+    }
 }
